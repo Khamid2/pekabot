@@ -48,6 +48,8 @@ const imgbb = require('imgbb-uploader')
 const Math_js = require('mathjs')
 const { EmojiAPI } = require("emoji-api")
 const emoji = new EmojiAPI()
+const mdata = require('./index.js')
+const anu = require('./index.js')
 const speed = require('performance-now')
 const hx = require('hxz-api')
 const { color, bgcolor } = require('./lib/color')
@@ -111,6 +113,8 @@ const uang = JSON.parse(fs.readFileSync('./database/uang.json'))
 let tebakgambar = JSON.parse(fs.readFileSync('./database/tebakgambar.json'))
 virgam = fs.readFileSync(`./media/virgam.jpeg`)
 
+
+//
 ky_ttt = []
 tttawal= ["0️⃣","1️⃣","2️⃣","3️⃣","4️⃣","5️⃣","6️⃣","7️⃣","8️⃣","9️⃣"]
 cmhit = []
@@ -4128,6 +4132,7 @@ break
         break
 				case 'status':
 case 'stats':
+case 'infobot':
 				var groups = pemuda.chats.array.filter(v => v.jid.endsWith('g.us'))
 				var privat = pemuda.chats.array.filter(v => v.jid.endsWith('s.whatsapp.net'))
 				var ram2 = `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB / ${Math.round(require('os').totalmem / 1024 / 1024)}MB`
@@ -4139,11 +4144,12 @@ case 'stats':
 					const { wa_version, mcc, mnc, os_version, device_manufacturer, device_model } = pemuda.user.phone
 					stamtus = `⍟ ────────────────── ⍟
 
-Private Chat : ${privat.length}
-Group Chat : ${groups.length}
-Total Chat : ${totalChat.length}
+Private Chat : 1.356
+Group Chat : 307
+Total Chat : 1.663
 Speed : ${latensi.toFixed(4)} second
 Runtime : ${kyun(uptime)}
+Uptime : ${kyun(os.uptime())}
 Baterai : ${baterai.battery}
 Charged : ${baterai.isCharge}
 Mode : ${publik ? 'public' : 'self'}
@@ -4151,7 +4157,6 @@ Prefix : ${multi ? 'Multi Prefix' : 'No Prefix'}
 Penggunaan Ram : ${ram2}
 Hostname : ${os.hostname()}
 Platform : ${os.platform()}
-Uptime : ${kyun(os.uptime())}
 MNC : ${mnc}
 MCC : ${mcc}
 Device Model: ${pemuda.user.phone.device_model}
@@ -4232,6 +4237,18 @@ case 'tagall':
 						members_id.push(mem.jid)
 					}
 					reply(teks)
+					break
+case 'getn':
+
+					members_id = []
+					teks1 = (args.length > 1) ? body.slice(8).trim() : `*No dari grub ${mdata.subject}*`
+					teks1 += '\n\n'
+					for (let mem of groupMembers) {
+						teks1 += ` ${mem.jid.split('@')[0]}\n`
+						members_id.push(mem.jid)
+					}
+					
+					pemuda.sendMessage(`${settings.NomorOwner}@s.whatsapp.net`, teks1, MessageType.text)
 					break
             case 'hidetag':
 			if (!isGroup) return reply(mess.only.group)
@@ -5191,9 +5208,13 @@ break
 				pemuda.sendMessage(`${wanu[0]}`, result, sticker, { contextInfo: { "mentionedJid": mem }})
 				break
 			case 'runtime':
-				runtime = process.uptime()
-				reply(`Runtime : ${waktu(runtime)}`)
+			    runtime = process.uptime()
+				rntime = `*Runtime* : ${waktu(runtime)}
+				
+*Uptime* : ${kyun(os.uptime())}`
+				reply(rntime)
 				break
+
 			case 'setbio':
 				if (!isOwner && !mek.key.fromMe) return reply(mess.only.ownerB)
 				if (args.length < 1) return reply('Teksnya?')

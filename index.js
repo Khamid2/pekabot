@@ -65,7 +65,7 @@ fetch(`http://ip-api.com/line`).then(res => res.text())
 	if (!settings.autoplaymusic) {
 exec(`cd /sdcard/download && play *mp3`)
 }
-   
+   //and async function start
    pemuda.on('chat-update', async (mek) => {
         require('./pemuda.js')(pemuda, mek)
         ownerNumber = ["6282322888788@s.whatsapp.net",`${settings.NomorOwner}@s.whatsapp.net`]
